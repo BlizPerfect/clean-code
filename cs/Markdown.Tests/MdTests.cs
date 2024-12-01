@@ -93,7 +93,7 @@ namespace Markdown.Tests
                 averageExecutionTimes[i] = totalExecutionTime / runsPerIteration;
             }
 
-            for (int i = 1; i < iterations; i++)
+            for (var i = 1; i < iterations; i++)
             {
                 var growthFactor = averageExecutionTimes[i] / averageExecutionTimes[i - 1];
                 Assert.That(growthFactor, Is.LessThanOrEqualTo(threshold));
