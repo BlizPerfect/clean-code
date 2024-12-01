@@ -1,22 +1,26 @@
-﻿using Markdown.Converters;
-using Markdown.Parsers;
-using Markdown.Writers;
+﻿using Markdown.Parsers;
+using Markdown.Renderers;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Markdown.Tests")]
 namespace Markdown
 {
-    internal class Md(IParser parser, IConverter converter, IWriter writer)
+    internal class Md(IParser parser, IRenderer renderer)
     {
-        private readonly IParser _parser = parser;
-        private readonly IConverter _converter = converter;
-        private readonly IWriter _writer = writer;
+        public readonly IParser Parser = parser ?? throw new ArgumentNullException(
+                "Передаваемый IParser не может быть null.");
+
+        public readonly IRenderer Renderer = renderer ?? throw new ArgumentNullException(
+                "Передаваемый IRenderer не может быть null.");
 
         public string Render(string text)
         {
-            var mdTokens = _parser.ParseToTokens(text);
-
-            var HTMLTokens = _converter.Convert(mdTokens);
-
-            return _writer.Write(HTMLTokens);
+            var mdTokens = Parser.Parse(text);
+            foreach (var token in mdTokens)
+            {
+                token.Render(Renderer);
+            }
+            return Renderer.ToString()!;
         }
     }
 }

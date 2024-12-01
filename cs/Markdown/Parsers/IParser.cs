@@ -1,9 +1,9 @@
-﻿using Markdown.Tokens;
+﻿using Markdown.Tokens.HtmlTokens;
 
 namespace Markdown.Parsers
 {
     internal interface IParser
     {
-        IList<Token> ParseToTokens(string textToParse);
+        IList<IRenderable> Parse(string text);
     }
 }
