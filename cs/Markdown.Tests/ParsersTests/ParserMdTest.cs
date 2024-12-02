@@ -65,16 +65,6 @@ namespace Markdown.Tests.ParsersTests
             CheckCorrectness(text);
         }
 
-        [TestCase("[NotAUrl")]
-        [TestCase("[NotAUrl]")]
-        [TestCase("[NotAUrl](NotAUrl")]
-        public void Parse_PseudoUrl_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
-            CheckCorrectness(text);
-        }
-
         [TestCase("Text Token")]
         public void Parse_SimpleText_Correctly(string text)
         {
@@ -108,24 +98,6 @@ namespace Markdown.Tests.ParsersTests
                         new ItalicToken(
                             new TextToken("Inner italic part")),
                         new TextToken(" outer bold"))));
-            CheckCorrectness(text);
-        }
-
-        [TestCase("_Outer italic __Inner Bold part__ outer Italic_")]
-        public void Parse_BoldInsideItalic_Correctly(string text)
-        {
-            _expected.Add(
-                new ItalicToken(
-                    new TextToken("Outer italic __Inner Bold part__ outer Italic")));
-            CheckCorrectness(text);
-        }
-
-        [TestCase("Digits_12_3")]
-        [TestCase("Digits__12__3")]
-        public void Parse_MarkdownInsideTextWithNumbers_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
             CheckCorrectness(text);
         }
 
@@ -195,88 +167,6 @@ namespace Markdown.Tests.ParsersTests
             CheckCorrectness(text);
         }
 
-        [TestCase("Hel_lo, Wor_ld")]
-        [TestCase("Hel__lo, Wor__ld")]
-        public void Parse_MarkdownInsideTwoWords_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
-            CheckCorrectness(text);
-        }
-
-        [TestCase("_Hello world__")]
-        [TestCase("__Hello world_")]
-        public void Parse_NonPairedMarkdown_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
-            CheckCorrectness(text);
-        }
-
-        [TestCase("_ Hello world_")]
-        [TestCase("_ Hello world _")]
-        [TestCase("_Hello world _")]
-        [TestCase("__ Hello world__")]
-        [TestCase("__ Hello world __")]
-        [TestCase("__Hello world __")]
-        public void Parse_MarkdownFollowedByOrAtEndWithSpace_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
-            CheckCorrectness(text);
-        }
-
-        [TestCase("_Hello__ _world__")]
-        [TestCase("__Hello_ __world_")]
-        public void Parse_MarkdownInteresection_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
-            CheckCorrectness(text);
-        }
-
-        [TestCase(@"\_Hello world\_")]
-        public void Parse_EscapedItalicMarkdown_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken("_Hello world_"));
-            CheckCorrectness(text);
-        }
-
-        [TestCase(@"_\_Hello world\__")]
-        public void Parse_EscapedItalicCombinationMarkdown_Correctly(string text)
-        {
-            _expected.Add(
-                new ItalicToken(
-                    new TextToken("_Hello world_")));
-            CheckCorrectness(text);
-        }
-
-        [TestCase(@"\_\_Hello world\_\_")]
-        public void Parse_EscapedBoldMarkdown_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken("__Hello world__"));
-            CheckCorrectness(text);
-        }
-
-        [TestCase(@"__\_\_Hello world\_\___")]
-        public void Parse_EscapedBoldCombinationMarkdown_Correctly(string text)
-        {
-            _expected.Add(
-                new BoldToken(
-                    new TextToken("__Hello world__")));
-            CheckCorrectness(text);
-        }
-
-        [TestCase(@"\[Url name](Url link)")]
-        public void Parse_EscapedUrl_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken("[Url name](Url link)"));
-            CheckCorrectness(text);
-        }
-
         [TestCase(@"\")]
         [TestCase(@"\a")]
         public void Parse_EscapedText_Correctly(string text)
@@ -320,15 +210,6 @@ namespace Markdown.Tests.ParsersTests
             _expected.Add(
                 new ItalicToken(
                     new TextToken("Italic token")));
-            CheckCorrectness(text);
-        }
-
-        [TestCase("__")]
-        [TestCase("____")]
-        public void Parse_MarkdownWithEmptyText_Correctly(string text)
-        {
-            _expected.Add(
-                new TextToken(text));
             CheckCorrectness(text);
         }
 

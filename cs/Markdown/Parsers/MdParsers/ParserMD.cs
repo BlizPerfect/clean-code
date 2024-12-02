@@ -20,13 +20,10 @@ namespace Markdown.Parsers.MdParsers
             '[',
         };
 
-        private readonly StringBuilder _mergeStringBuilder = new StringBuilder();
-
         public IList<IRenderable> Parse(string text)
         {
             text = text.Replace(@"\\", "");
-            var tokens = ParseTextPart(text);
-            return MergeTextTokens(tokens);
+            return ParseTextPart(text);
         }
 
         private List<IRenderable> ParseTextPart(string text)
@@ -295,43 +292,7 @@ namespace Markdown.Parsers.MdParsers
             {
                 return innerTokens[0];
             }
-
-            var result = MergeTextTokens(innerTokens);
-            if (result.Count == 1)
-            {
-                return result[0];
-            }
-            return new SetToken(result.ToArray());
-        }
-
-        private List<IRenderable> MergeTextTokens(IList<IRenderable> tokens)
-        {
-            var result = new List<IRenderable>();
-            _mergeStringBuilder.Clear();
-
-            foreach (var token in tokens)
-            {
-                if (token is TextToken textToken)
-                {
-                    _mergeStringBuilder.Append(textToken.Text);
-                }
-                else
-                {
-                    if (_mergeStringBuilder.Length > 0)
-                    {
-                        result.Add(new TextToken(_mergeStringBuilder.ToString()));
-                    }
-                    _mergeStringBuilder.Clear();
-                    result.Add(token);
-                }
-            }
-
-            if (_mergeStringBuilder.Length > 0)
-            {
-                result.Add(new TextToken(_mergeStringBuilder.ToString()));
-            }
-
-            return result;
+            return new SetToken(innerTokens.ToArray());
         }
     }
 }
