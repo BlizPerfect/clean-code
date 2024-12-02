@@ -1,5 +1,4 @@
 ﻿using Markdown.Tokens.HtmlTokens;
-using System.Text;
 
 namespace Markdown.Parsers.MdParsers
 {
@@ -13,7 +12,7 @@ namespace Markdown.Parsers.MdParsers
         private const string LinkUrlEnd = ")";
         private const string HeaderMarkerStart = "# ";
 
-        private readonly HashSet<char> _markers = new HashSet<char>()
+        private static readonly HashSet<char> _markers = new HashSet<char>()
         {
             '_',
             '#',
@@ -26,7 +25,7 @@ namespace Markdown.Parsers.MdParsers
             return ParseTextPart(text);
         }
 
-        private List<IRenderable> ParseTextPart(string text)
+        private static List<IRenderable> ParseTextPart(string text)
         {
             var tokens = new List<IRenderable>();
             var index = 0;
@@ -60,7 +59,7 @@ namespace Markdown.Parsers.MdParsers
             return tokens;
         }
 
-        private bool IsEscapeStart(string text, int index)
+        private static bool IsEscapeStart(string text, int index)
             => text[index] == '\\'
             && index + 1 < text.Length
             && _markers.Contains(text[index + 1]);
@@ -86,7 +85,7 @@ namespace Markdown.Parsers.MdParsers
             return index + 2;
         }
 
-        private int ParseHeader(string text, int index, List<IRenderable> tokens)
+        private static int ParseHeader(string text, int index, List<IRenderable> tokens)
         {
             var startIndex = index + HeaderMarkerStart.Length;
             var endIndex = FindEndOfLine(text, startIndex);
@@ -106,7 +105,7 @@ namespace Markdown.Parsers.MdParsers
             return endIndex;
         }
 
-        private int ParseLink(string text, int index, List<IRenderable> tokens)
+        private static int ParseLink(string text, int index, List<IRenderable> tokens)
         {
             var nameStart = index + 1;
             var nameEnd = text.IndexOf(LinkNameEnd, nameStart);
@@ -132,7 +131,7 @@ namespace Markdown.Parsers.MdParsers
             return urlEnd + LinkUrlEnd.Length;
         }
 
-        private int ParseItalic(string text, int index, List<IRenderable> tokens)
+        private static int ParseItalic(string text, int index, List<IRenderable> tokens)
         {
             var startIndex = index + 1;
 
@@ -172,7 +171,7 @@ namespace Markdown.Parsers.MdParsers
             }
         }
 
-        private int ParseBold(string text, int index, List<IRenderable> tokens)
+        private static int ParseBold(string text, int index, List<IRenderable> tokens)
         {
             var startIndex = index + BoldMarkerStart.Length;
 
@@ -204,7 +203,7 @@ namespace Markdown.Parsers.MdParsers
             return isLeftDigit || isRightDigit;
         }
 
-        private int ParseText(string text, int index, List<IRenderable> tokens)
+        private static int ParseText(string text, int index, List<IRenderable> tokens)
         {
             var startIndex = index;
 
@@ -226,7 +225,7 @@ namespace Markdown.Parsers.MdParsers
             return index;
         }
 
-        private IList<IRenderable> ParseSubTokens(string text)
+        private static IList<IRenderable> ParseSubTokens(string text)
             => ParseTextPart(text);
 
         private static int CountConsecutiveCharacters(string text, int index, char character)
@@ -239,7 +238,7 @@ namespace Markdown.Parsers.MdParsers
             return result;
         }
 
-        private int FindClosingMarker(string text, int startIndex, string marker)
+        private static int FindClosingMarker(string text, int startIndex, string marker)
         {
             for (var i = startIndex; i < text.Length; i++)
             {
@@ -286,7 +285,7 @@ namespace Markdown.Parsers.MdParsers
             && index + markerLength < text.Length
             && char.IsLetter(text[index + markerLength]);
 
-        private IRenderable WrapInnerTokens(IList<IRenderable> innerTokens)
+        private static IRenderable WrapInnerTokens(IList<IRenderable> innerTokens)
         {
             if (innerTokens.Count == 1)
             {
