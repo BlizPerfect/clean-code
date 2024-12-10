@@ -34,15 +34,6 @@ namespace Markdown.Renderers
             _stringBuilder.Append("</em>");
         }
 
-        public void RenderLink(LinkToken linkToken)
-        {
-            ArgumentNullException.ThrowIfNull(linkToken);
-
-            _stringBuilder.Append($"<a href=\"{linkToken.Link}\">");
-            linkToken.InnerItem.Render(this);
-            _stringBuilder.Append("</a>");
-        }
-
         public void RenderSet(SetToken setToken)
         {
             ArgumentNullException.ThrowIfNull(setToken);
