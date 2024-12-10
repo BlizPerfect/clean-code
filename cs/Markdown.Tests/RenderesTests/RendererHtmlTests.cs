@@ -62,22 +62,6 @@ namespace Markdown.Tests.RenderesTests
         }
 
         [Test]
-        public void RenderLink_ThrowsException_ReceivingNullAsToken()
-        {
-            Assert.Throws<ArgumentNullException>(() => _renderer.RenderLink(null!));
-        }
-
-        [Test]
-        public void RenderLink_RendersCorrectly()
-        {
-            var link = "https://www.google.com";
-            _renderer.RenderLink(
-                new LinkToken(
-                    new TextToken(_dummyText), link));
-            _renderer.ToString().Should().Be($"<a href=\"{link}\">{_dummyText}</a>");
-        }
-
-        [Test]
         public void RenderSet_ThrowsException_ReceivingNullAsToken()
         {
             Assert.Throws<ArgumentNullException>(() => _renderer.RenderSet(null!));

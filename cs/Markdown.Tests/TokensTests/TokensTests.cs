@@ -7,7 +7,6 @@ namespace Markdown.Tests.TokensTests
     {
         private readonly string _dummyText = "Hello, World!";
         private readonly TextToken _dummyTextToken = new TextToken("Hello, World!");
-        private readonly string _dummyLink = "https://www.google.com";
 
         [Test]
         public void BoldToken_ThrowsException_ReceivingNullAsIRenderable()
@@ -46,28 +45,6 @@ namespace Markdown.Tests.TokensTests
         {
             Assert.Throws<ArgumentNullException>(()
                 => new ItalicToken(_dummyTextToken).Render(null!));
-        }
-
-        [Test]
-        public void LinkToken_ThrowsException_ReceivingNullAsIRenderable()
-        {
-            Assert.Throws<ArgumentNullException>(() => new LinkToken(null!, _dummyLink));
-        }
-
-        [TestCase(null!)]
-        [TestCase("")]
-        [TestCase(" ")]
-        public void LinkToken_ThrowsException_ReceivingullOrWhiteSpaceAsLink(string link)
-        {
-            var dummy = new TextToken("Dummy text");
-            Assert.Throws<ArgumentNullException>(() => new LinkToken(dummy, link));
-        }
-
-        [Test]
-        public void LinkToken_ThrowsException_ReceivingNullAsIRenderer_OnRender()
-        {
-            Assert.Throws<ArgumentNullException>(()
-                => new LinkToken(_dummyTextToken, _dummyLink).Render(null!));
         }
 
         [Test]
