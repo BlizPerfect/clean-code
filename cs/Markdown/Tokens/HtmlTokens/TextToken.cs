@@ -7,6 +7,7 @@ namespace Markdown.Tokens.HtmlTokens
         public readonly string Text = text
             ?? throw new ArgumentNullException(nameof(text),
                 "Список внутренних токенов не может быть null.");
+        public readonly TokenTypes Type = TokenTypes.Text;
 
         public void Render(IRenderer renderer)
         {

@@ -7,6 +7,7 @@ namespace Markdown.Tokens.HtmlTokens
         private readonly IRenderable[] _innerItems = innerItems
             ?? throw new ArgumentNullException(nameof(innerItems),
                 "Список внутренних токенов не может быть null.");
+        public readonly TokenTypes Type = TokenTypes.Set;
         public IRenderable[] InnerItems => _innerItems;
 
         public void Render(IRenderer renderer)
